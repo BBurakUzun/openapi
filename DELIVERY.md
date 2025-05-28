@@ -2,28 +2,28 @@
 
 ## 👨‍🎓 Öğrenci Bilgileri
 
-- İsim: [Ad Soyad]
-- Numara: [Öğrenci Numarası]
+- İsim: Buğra Burak UZUN
+- Numara: 170422029
 - Ders: Açık Kaynak Kodlu Yazılımlar
 
 ---
 
-## 📝 API Açıklaması
+## API Açıklaması
 
-Bu API, bir üniversiteye ait çevrim içi kütüphane sistemini tanımlamaktadır. OpenAPI 3.0.3 standardına uygun olarak hazırlanmıştır.
+Bu API, bir üniversiteye ait online kütüphane sistemini tanımlamaktadır. OpenAPI 3.0.3 standardına uygun olarak hazırlanmıştır.
 
-### 📦 Varlıklar (Entities)
+### Varlıklar (Entities)
 
 API'de aşağıdaki üç temel varlık bulunmaktadır:
 
 1. **books** – Kitap bilgilerini içerir.
 2. **students** – Öğrenci bilgilerini içerir.
-3. **loans** – Ödünç alma ve iade süreçlerini yönetir.
+3. **loans** – Ödünç alma ve iadeleri yönetir.
 
-### 🔄 CRUD İşlemleri ve Endpoint'ler
+### CRUD İşlemleri ve Endpoint'ler
 
 - **Books**
-  - `GET /books`: Tüm kitapları listeler (sayfalama destekli)
+  - `GET /books`: Tüm kitapları döndürür (sayfalama destekli)
   - `GET /books/{id}`: Belirli bir kitabı getirir
   - `POST /books`: Yeni kitap ekler
   - `PUT /books/{id}`: Mevcut kitabı günceller
@@ -40,7 +40,7 @@ API'de aşağıdaki üç temel varlık bulunmaktadır:
   - `POST /loans`: Kitap ödünç alma
   - `PATCH /loans/{id}/return`: Kitap iade etme
 
-### 🧱 Bileşen Kullanımı
+### Bileşen Kullanımı
 
 - `components/schemas`: `Book`, `Student` ve `Loan` modelleri detaylıca tanımlanmıştır.
   - `format`, `enum`, `nullable`, `required` alanları kullanılmıştır.
@@ -51,7 +51,7 @@ API'de aşağıdaki üç temel varlık bulunmaktadır:
   - 200, 201, 204, 404 yanıtlara yer verilmiştir.
   - `400` ve `500` hataları için `components > responses` kısmı tanımlıdır.
 
-### 📄 Sayfalama ve Hatalar
+### Sayfalama ve Hatalar
 
 - **Sayfalama**: `GET /books` endpointinde `page` ve `size` parametreleriyle uygulanmıştır.
 - **Hata Durumları**: 
@@ -61,22 +61,42 @@ API'de aşağıdaki üç temel varlık bulunmaktadır:
 
 ---
 
-## 🧪 Test Notları (Opsiyonel)
+## Test Notları (Opsiyonel)
 
 Swagger Editor üzerinden yapılan bazı testler:
 
-### ✅ `GET /books` Çağrısı
+### `GET /books` Çağrısı
 ```json
 {
   "books": [
     {
-      "id": "123e4567-e89b-12d3-a456-426614174000",
-      "title": "Sefiller",
-      "author": "Victor Hugo",
-      "isbn": "9781234567897",
+      "id": "123456",
+      "title": "Yeraltından Notlar",
+      "author": "Fyodor Dostoyevski",
+      "isbn": "987654321",
       "publisher": "Can Yayınları",
-      "pageCount": 480,
+      "pageCount": 200,
       "stock": 5
     }
   ]
 }
+```
+
+### `POST /students` İçin Örnek `requestBody`
+```json
+{
+  "id": "345678",
+  "name": "Buğra Burak Uzun",
+  "studentNumber": "170422029",
+  "email": "bugrburakuzun@gmail.com",
+  "isActive": true
+}
+```
+
+### `400 Bad Request` Örneği
+```json
+{
+  "error": "Hatalı email girişi"
+}
+```
+
