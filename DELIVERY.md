@@ -8,9 +8,18 @@
 
 ---
 
-## API Açıklaması
-
 Bu API, bir üniversiteye ait online kütüphane sistemini tanımlamaktadır. OpenAPI 3.0.3 standardına uygun olarak hazırlanmıştır.
+
+## Kurulum
+Önce aşağıdaki şekilde bu repoyu klonlayın.
+```
+git clone https://github.com/BBurakUzun/openapi.git
+```   
+
+openapi.yaml dosyasını Swagger Editor'e yükleyin.
+
+---
+
 
 ### Varlıklar (Entities)
 
@@ -19,6 +28,12 @@ API'de aşağıdaki üç temel varlık bulunmaktadır:
 1. **books** – Kitap bilgilerini içerir.
 2. **students** – Öğrenci bilgilerini içerir.
 3. **loans** – Ödünç alma ve iadeleri yönetir.
+
+### Kullanım
+
+ `https://marmarakutuphane.com/api`
+
+
 
 ### CRUD İşlemleri ve Endpoint'ler
 
