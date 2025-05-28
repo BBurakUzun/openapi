@@ -8,6 +8,9 @@
 
 ---
 
+### 🔗 GitHub Repo Linki
+https://github.com/BBurakUzun/openapi
+
 Bu API, bir üniversiteye ait online kütüphane sistemini tanımlamaktadır. OpenAPI 3.0.3 standardına uygun olarak hazırlanmıştır.
 
 ## Kurulum
