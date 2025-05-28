@@ -1,0 +1,310 @@
+openapi: 3.0.3
+info:
+  title: Marmara Üniversitesi  Kütüphane Yönetimi API
+  version: 1.0.0
+  description: Kütüphane Yönetimi için API
+servers:
+  - url: https://marmarakutuphane.com/api
+    description: API
+
+tags:
+  - name: books
+    description: Kitaplarla ilgili işlemler
+  - name: students
+    description: Öğrencilerle ilgili işlemler
+  - name: loans
+    description: Ödünç alma işlemleri
+
+paths:
+  /books:
+    get:
+      tags: [books]
+      summary: Tüm kitapları döndürür
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: size
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Kitap listesi başarıyla getirildi
+          content:
+            application/json:
+              example:
+                books:
+                  - id: "123456"
+                    title: "Yeraltından Notlar"
+                    author: "Fyodor Dostoyevski"
+                    isbn: "987654321"
+                    publisher: "Can Yayınları"
+                    pageCount: 200
+                    stock: 5
+
+    post:
+      tags: [books]
+      summary: Yeni kitap ekler
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        '201':
+          description: Kitap başarıyla eklendi
+
+  /books/{id}:
+    get:
+      tags: [books]
+      summary: ID ile kitap bilgisini döndürür
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Kitap bulundu
+        '404':
+          description: Kitap bulunamadı
+
+    put:
+      tags: [books]
+      summary: Kitap bilgisini günceller
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        '200':
+          description: Kitap güncellendi
+
+    delete:
+      tags: [books]
+      summary: Kitap siler
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Kitap silindi
+
+  /students:
+    get:
+      tags: [students]
+      summary: Tüm öğrencileri döndürür
+      responses:
+        '200':
+          description: Öğrenci listesi başarıyla getirildi
+
+    post:
+      tags: [students]
+      summary: Yeni öğrenci ekler
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '201':
+          description: Öğrenci eklendi
+
+  /students/{id}:
+    get:
+      tags: [students]
+      summary: Öğrenci bilgisi döndürür
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Öğrenci bulundu
+        '404':
+          description: Öğrenci bulunamadı
+
+    put:
+      tags: [students]
+      summary: Öğrenci bilgisini günceller
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '200':
+          description: Güncellendi
+
+    delete:
+      tags: [students]
+      summary: Öğrenciyi siler
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Silindi
+
+  /loans:
+    get:
+      tags: [loans]
+      summary: Ödünçleri döndürür
+      responses:
+        '200':
+          description: Başarılı
+
+    post:
+      tags: [loans]
+      summary: Kitap ödünç alma
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Loan'
+      responses:
+        '201':
+          description: Ödünç alındı
+
+  /loans/{id}:
+    get:
+      tags: [loans]
+      summary: ID ile ödünç bilgisini döndürür
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ödünç bulundu
+        '404':
+          description: Bulunamadı
+
+  /loans/{id}/return:
+    patch:
+      tags: [loans]
+      summary: Kitap iade etme
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Kitap iade edildi
+
+components:
+  schemas:
+    Book:
+      type: object
+      required: [id, title, author, isbn, publisher, pageCount, stock]
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        author:
+          type: string
+        isbn:
+          type: string
+          format: isbn
+        publisher:
+          type: string
+        pageCount:
+          type: integer
+        stock:
+          type: integer
+
+    Student:
+      type: object
+      required: [id, name, studentNumber, email, isActive]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        studentNumber:
+          type: string
+        email:
+          type: string
+          format: email
+        isActive:
+          type: boolean
+
+    Loan:
+      type: object
+      required: [id, studentId, bookId, loanDate, status]
+      properties:
+        id:
+          type: string
+          format: uuid
+        studentId:
+          type: string
+          format: uuid
+        bookId:
+          type: string
+          format: uuid
+        loanDate:
+          type: string
+          format: date
+        returnDate:
+          type: string
+          format: date
+          nullable: true
+        status:
+          type: string
+          enum: [ongoing, returned, late]
+
+  responses:
+    NotFound:
+      description: Kaynak bulunamadı
+    ServerError:
+      description: Sunucu hatası
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
